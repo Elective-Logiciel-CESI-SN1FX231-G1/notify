@@ -1,0 +1,7 @@
+{
+  "name": "Notify Service",
+  "version": "0.1.0",
+  "description": "apiDoc basic example",
+  "title": "Documentation for Notify Service",
+  "url" : "http://localhost:8080/api"
+}
