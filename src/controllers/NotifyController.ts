@@ -23,12 +23,13 @@ export const subscribe: Handler = async (req, res) => {
     const newUser = new UserModel(user)
     try {
       await newUser.save()
-      res.status(201).send(newUser)
+      return res.status(201).send(newUser)
     } catch (err) {
       if (err instanceof Error && err.message) res.status(400).send(err.message)
       else throw err
     }
   }
+  return res.sendStatus(200)
 }
 
 export async function pushMessage (message: String, id: number) {
