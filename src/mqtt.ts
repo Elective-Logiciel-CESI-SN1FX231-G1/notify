@@ -14,10 +14,7 @@ client.on('message', async function (topic, message) {
 
 export const connect = async function () {
   if (!client.connected) { await new Promise(resolve => client.once('connect', resolve)) }
-  await client.subscribe('sponsor/sponsorship/restaurateur')
-  await client.subscribe('sponsor/sponsorship/client')
-  await client.subscribe('auth/users/edit')
-  await client.subscribe('auth/users/delete')
+  await client.subscribe('notify')
 }
 
 export default client
