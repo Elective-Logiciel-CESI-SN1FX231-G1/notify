@@ -16,14 +16,27 @@ async function run () {
   console.log('Registering push')
   const subscription = await registration.pushManager.subscribe({
     userVisibleOnly: true,
-    applicationServerKey: urlBase64ToUint8Array(publicVapidKey)
+    applicationServerKey: publicVapidKey
   })
   console.log('Registered push')
 
   console.log('Sending push')
+
+  const fullBody = {
+    _id: '123456',
+    lastName: 'Delpech',
+    firstName: 'Michel',
+    role: 'restaurateur',
+    subscription
+  }
+
+  console.log(fullBody)
+
+  const stringBody = JSON.stringify(fullBody)
+
   await fetch('subscribe', {
     method: 'POST',
-    body: JSON.stringify(subscription),
+    body: stringBody,
     headers: {
       'content-type': 'application/json'
     }
@@ -32,6 +45,7 @@ async function run () {
 }
 
 // Boilerplate borrowed from https://www.npmjs.com/package/web-push#using-vapid-key-for-applicationserverkey
+// eslint-disable-next-line no-unused-vars
 function urlBase64ToUint8Array (base64String) {
   const padding = '='.repeat((4 - base64String.length % 4) % 4)
   const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/')

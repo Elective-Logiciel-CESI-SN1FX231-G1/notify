@@ -1,4 +1,5 @@
 import { Handler } from 'express'
+import UserModel from '../Models/UserModel'
 
 const webpush = require('web-push')
 
@@ -8,17 +9,46 @@ const privateVapidKey = 'SXm6XPPNs1xzZ_Z1Yb4UxGhY5OBGxcpjCW0gj8oXfM8'
 webpush.setVapidDetails('mailto:test@test.com', publicVapidKey, privateVapidKey)
 
 export const subscribe: Handler = async (req, res) => {
-  const subscription = req.body
-  res.status(201).json({})
-  const payload = JSON.stringify({ title: 'test' })
+  const user = {
+    _id: req.body._id,
+    nom: req.body.lastName,
+    prenom: req.body.firstName,
+    role: req.body.role,
+    subscription: req.body.subscription
+  }
 
-  console.log(subscription)
+  const userExist = await UserModel.findOne({ _id: user._id })
 
-  webpush.sendNotification(subscription, payload).catch((error: { stack: any }) => {
+  if (!userExist) {
+    const newUser = new UserModel(user)
+    try {
+      await newUser.save()
+      res.status(201).send(newUser)
+    } catch (err) {
+      if (err instanceof Error && err.message) res.status(400).send(err.message)
+      else throw err
+    }
+  }
+}
+
+export async function pushMessage (message: String, id: number) {
+  const user = await UserModel.findOne({ _id: id })
+
+  if (!user) return -1
+
+  const payload = JSON.stringify({
+    title: "V'EAT",
+    content: message
+  })
+
+  webpush.sendNotification(user.subscription, payload).catch((error: { stack: any }) => {
     console.error(error.stack)
   })
+
+  return 1
 }
 
 export default {
-  subscribe
+  subscribe,
+  pushMessage
 }

@@ -1,12 +1,13 @@
 import mqtt from 'async-mqtt'
 import config from 'config'
+import { pushMessage } from './controllers/NotifyController'
 
 const client = mqtt.connect(config.get('mqtt.url'))
 
 client.on('message', async function (topic, message) {
   try {
     const msg = JSON.parse(message.toString())
-    console.log(msg)
+    pushMessage(msg.message, msg.id)
   } catch (error) {
     console.error(error)
   }

@@ -1,8 +1,8 @@
 self.addEventListener('push', function (event) {
   const data = event.data.json()
-  console.log('Got push', data)
-  self.registration.showNotification(data.title, {
-    body: 'Hello, World!',
+  const promiseChain = self.registration.showNotification(data.title, {
+    body: data.content,
     icon: 'http://mongoosejs.com/docs/images/mongoose5_62x30_transparent.png'
   })
+  event.waitUntil(promiseChain)
 })
