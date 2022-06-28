@@ -7,6 +7,7 @@ import NotifyRouter from './routes/NotifyRouter'
 const app = express()
 
 app.use(auth)
+app.use('/api', express.static('apidoc'))
 app.use(require('body-parser').json())
 app.use('/api/notify', NotifyRouter)
 
