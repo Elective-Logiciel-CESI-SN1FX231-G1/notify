@@ -13,10 +13,12 @@ export const subscribe: Handler = async (req, res) => {
 
   const userExist = await UserModel.findOne({ _id: user._id })
 
-  if (userExist) return res.sendStatus(200)
-
   const newUser = new UserModel(user)
   try {
+    if (userExist) {
+      await UserModel.findOneAndUpdate({ _id: user._id }, { $set: user }, { new: true })
+      return res.status(201).send(newUser)
+    }
     await newUser.save()
     return res.status(201).send(newUser)
   } catch (err) {
