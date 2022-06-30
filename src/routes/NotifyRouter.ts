@@ -8,16 +8,16 @@ const NotifyRouter = express.Router()
  * @apiGroup Notify
  *
  * @apiBody {String} _id User's unique ID.
- * @apiBody {String} nom Lastname of the user.
- * @apiBody {String} prenom Firstname of the user.
+ * @apiBody {String} lastname Lastname of the user.
+ * @apiBody {String} firstname Firstname of the user.
  * @apiBody {String} role Role of the user.
  * @apiBody {Object} subscription Subscription as described by web-push API.
  *
  *@apiExample {json} Request-Example:
  *    {
  *      "_id": "46Juzcyx",
- *      "nom": "Delpech",
- *      "prenom": "Michel",
+ *      "lastname": "Delpech",
+ *      "firstname": "Michel",
  *      "role": "restaurateur",
  *      "subscription": {
  *          "endpoint": "https://fcm.googleapis.com/fcm/send/fdkzq15d2:DUIOQ5dfqDDQZ413fqefesq5",
@@ -29,8 +29,8 @@ const NotifyRouter = express.Router()
  *    }
  *
  * @apiSuccess {String} _id User's unique ID.
- * @apiSuccess {String} nom Lastname of the user.
- * @apiSuccess {String} prenom Firstname of the user.
+ * @apiSuccess {String} lastname Lastname of the user.
+ * @apiSuccess {String} firstname Firstname of the user.
  * @apiSuccess {String} role Role of the user.
  * @apiSuccess {Object} subscription Subscription as described by web-push API.
  *
@@ -38,8 +38,8 @@ const NotifyRouter = express.Router()
  *    HTTP/1.1 200 OK
  *    {
  *      "_id": "46Juzcyx",
- *      "nom": "Delpech",
- *      "prenom": "Michel",
+ *      "lastname": "Delpech",
+ *      "firstname": "Michel",
  *      "role": "restaurateur",
  *      "subscription": {
  *          "endpoint": "https://fcm.googleapis.com/fcm/send/fdkzq15d2:DUIOQ5dfqDDQZ413fqefesq5",

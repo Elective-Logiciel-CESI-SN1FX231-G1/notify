@@ -4,8 +4,8 @@ type Role = 'client'| 'restaurateur'| 'deliverer'| 'developer'| 'commercial'| 't
 
 export interface IUser {
     _id: String,
-    nom: String,
-    prenom: String,
+    lastname: String,
+    firstname: String,
     role: Role,
     subscription: {
         endpoint: String,
@@ -18,8 +18,8 @@ export interface IUser {
 
 const UserSchema = new Schema<IUser>({
   _id: { type: String, required: true },
-  nom: { type: String, required: true },
-  prenom: { type: String, required: true },
+  lastname: { type: String, required: true },
+  firstname: { type: String, required: true },
   role: { type: String, required: true },
   subscription: {
     endpoint: { type: String, required: true },

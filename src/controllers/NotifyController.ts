@@ -9,27 +9,20 @@ const privateVapidKey = 'SXm6XPPNs1xzZ_Z1Yb4UxGhY5OBGxcpjCW0gj8oXfM8'
 webpush.setVapidDetails('mailto:test@test.com', publicVapidKey, privateVapidKey)
 
 export const subscribe: Handler = async (req, res) => {
-  const user = {
-    _id: req.body._id,
-    nom: req.body.lastName,
-    prenom: req.body.firstName,
-    role: req.body.role,
-    subscription: req.body.subscription
-  }
+  const user = req.body
 
   const userExist = await UserModel.findOne({ _id: user._id })
 
-  if (!userExist) {
-    const newUser = new UserModel(user)
-    try {
-      await newUser.save()
-      return res.status(201).send(newUser)
-    } catch (err) {
-      if (err instanceof Error && err.message) res.status(400).send(err.message)
-      else throw err
-    }
+  if (userExist) return res.sendStatus(200)
+
+  const newUser = new UserModel(user)
+  try {
+    await newUser.save()
+    return res.status(201).send(newUser)
+  } catch (err) {
+    if (err instanceof Error && err.message) return res.status(400).send(err.message)
+    else throw err
   }
-  return res.sendStatus(200)
 }
 
 export async function pushMessage (message: String, id: number) {
@@ -38,7 +31,7 @@ export async function pushMessage (message: String, id: number) {
   if (!user) return -1
 
   const payload = JSON.stringify({
-    title: "V'EAT",
+    title: `[${user.firstname}] V'EAT`,
     content: message
   })
 

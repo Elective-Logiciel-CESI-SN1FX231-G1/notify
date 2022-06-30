@@ -7,7 +7,7 @@ const client = mqtt.connect(config.get('mqtt.url'))
 client.on('message', async function (topic, message) {
   try {
     const msg = JSON.parse(message.toString())
-    pushMessage(msg.message, msg.id)
+    pushMessage(msg.body.msg, msg.user)
   } catch (error) {
     console.error(error)
   }
